@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Apresentação - EvenTuca</title>
+  <style>
+    :root {
+      --bg: #0b1120;
+      --card-bg: #1e293b;
+      --card-border: #334155;
+      --primary: #f97316;
+      --primary-hover: #ea580c;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      height: 100vh;
+      width: 100vw;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 16px 24px;
+    }
+
+    /* BANNER TOPO */
+    .top-banner-container {
+      width: 100%;
+      height: 140px;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid var(--card-border);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+      flex-shrink: 0;
+    }
+
+    .top-banner-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+    }
+
+    /* VIEW CONTROLLERS */
+    #view-home {
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+      justify-content: space-between;
+      min-height: 0;
+    }
+
+    #view-timeline {
+      display: none;
+      flex-direction: column;
+      flex-grow: 1;
+      height: 100%;
+      min-height: 0;
+    }
+
+    header {
+      text-align: center;
+      flex-shrink: 0;
+      margin: 10px 0;
+    }
+
+    header h1 {
+      font-size: 1.8rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+
+    header h1 span {
+      color: var(--primary);
+    }
+
+    header p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-top: 2px;
+    }
+
+    main {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      flex-grow: 1;
+      margin-bottom: 12px;
+      min-height: 0;
+    }
+
+    .card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: var(--primary);
+      box-shadow: 0 12px 24px -10px rgba(249, 115, 22, 0.25);
+    }
+
+    .card-icon {
+      font-size: 2.4rem;
+      margin-bottom: 4px;
+    }
+
+    .card h2 {
+      font-size: 1.2rem;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+
+    .card p.preview-text {
+      color: var(--text-muted);
+      font-size: 0.84rem;
+      line-height: 1.4;
+      margin-bottom: 10px;
+    }
+
+    .badge-click {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--primary);
+      background: rgba(249, 115, 22, 0.1);
+      padding: 5px 12px;
+      border-radius: 20px;
+      border: 1px solid rgba(249, 115, 22, 0.25);
+    }
+
+    /* CARD 2 PREVIEW */
+    .qr-thumb-wrapper {
+      background: white;
+      padding: 6px;
+      border-radius: 10px;
+      display: inline-block;
+      margin-bottom: 8px;
+    }
+
+    .qr-thumb {
+      width: 90px;
+      height: 90px;
+      object-fit: contain;
+      display: block;
+    }
+
+    .btn-link {
+      display: inline-block;
+      width: 100%;
+      background-color: var(--primary);
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.82rem;
+      padding: 8px 14px;
+      border-radius: 8px;
+      transition: background-color 0.2s ease;
+      margin-top: 6px;
+    }
+
+    .btn-link:hover {
+      background-color: var(--primary-hover);
+    }
+
+    /* TELA CHEIA DA LINHA DO TEMPO */
+    .timeline-view-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      flex-shrink: 0;
+    }
+
+    .btn-voltar {
+      background: var(--card-bg);
+      color: var(--primary);
+      border: 1px solid var(--primary);
+      padding: 8px 18px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.88rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .btn-voltar:hover {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .timeline-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      flex-grow: 1;
+      min-height: 0;
+      align-items: stretch;
+    }
+
+    .timeline-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+    }
+
+    .timeline-card-header {
+      margin-bottom: 8px;
+    }
+
+    .timeline-stage {
+      color: var(--primary);
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .timeline-card h3 {
+      font-size: 1.1rem;
+      color: var(--text);
+      margin: 2px 0 6px 0;
+    }
+
+    .timeline-card p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      line-height: 1.35;
+    }
+
+    .timeline-img-box {
+      width: 100%;
+      height: 180px;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid var(--card-border);
+      cursor: pointer;
+      position: relative;
+      margin: 10px 0;
+      background: #000;
+    }
+
+    .timeline-img-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+
+    .timeline-img-box:hover img {
+      transform: scale(1.04);
+      opacity: 0.9;
+    }
+
+    .timeline-img-box::after {
+      content: '🔍 Clique para ampliar';
+      position: absolute;
+      bottom: 8px;
+      right: 8px;
+      background: rgba(15, 23, 42, 0.8);
+      color: #fff;
+      font-size: 0.68rem;
+      padding: 4px 8px;
+      border-radius: 6px;
+      pointer-events: none;
+    }
+
+    .timeline-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--primary);
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-top: 4px;
+    }
+
+    .timeline-link:hover {
+      text-decoration: underline;
+    }
+
+    /* MODAIS */
+    dialog {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      color: var(--text);
+      max-width: 680px;
+      width: 90%;
+      margin: auto;
+      padding: 24px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+      outline: none;
+    }
+
+    dialog::backdrop {
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(4px);
+    }
+
+    dialog h3 {
+      font-size: 1.4rem;
+      margin-bottom: 12px;
+      color: var(--primary);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .btn-fechar {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.4rem;
+      cursor: pointer;
+      line-height: 1;
+    }
+
+    .btn-fechar:hover {
+      color: var(--text);
+    }
+
+    .dialog-body {
+      font-size: 0.9rem;
+      line-height: 1.5;
+      color: #cbd5e1;
+    }
+
+    .dialog-body p {
+      margin-bottom: 10px;
+    }
+
+    .stack-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .stack-tag {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--card-border);
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      font-weight: 500;
+    }
+
+    #modalQr {
+      max-width: 440px;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .qr-full {
+      width: 100%;
+      max-width: 600px;
+      height: auto;
+      background: white;
+      padding: 10px;
+      border-radius: 10px;
+      margin: 12px auto;
+      display: block;
+    }
+
+    /* MODAL DE ZOOM DE IMAGEM */
+    #modalZoomImagem {
+      max-width: 85vw;
+      width: auto;
+      text-align: center;
+      padding: 16px;
+    }
+
+    #imgExpandida {
+      max-width: 80vw;
+      max-height: 75vh;
+      border-radius: 8px;
+      object-fit: contain;
+      display: block;
+      margin: 0 auto;
+    }
+
+    footer {
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      flex-shrink: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- VIEW 1: HOME (3 CARDS) -->
+  <div id="view-home">
+    <!-- BANNER TOPO -->
+    <div class="top-banner-container">
+      <img src="banner_eventuca.png" alt="Banner EvenTuca" />
+    </div>
+
+    <header>
+      <h1>Apresentação <span>EvenTuca</span></h1>
+      <p>Projeto Final • Ecossistema Mobile & Integração em Nuvem</p>
+    </header>
+
+    <main>
+      <!-- CARD 1: O PROJETO & STACKS -->
+      <div class="card" onclick="abrirModal('modalProjeto')">
+        <div class="card-icon"></div>
+        <div>
+          <h2>O Projeto</h2>
+          <p class="preview-text">Visão geral do aplicativo EvenTuca, desafios resolvidos e comunidade tech.</p>
+        </div>
+        <span class="badge-click">Clique para detalhes</span>
+      </div>
+
+      <!-- CARD 2: QR CODE & APRESENTAÇÃO -->
+      <div class="card" onclick="abrirModal('modalQr')">
+        <div class="card-icon"></div>
+        <div>
+          <h2>Acesse o App</h2>
+          <div class="qr-thumb-wrapper">
+            <img src="QRCode_Facil.svg" alt="QR Code EvenTuca" class="qr-thumb" />
+          </div>
+          <p class="preview-text" style="margin-bottom: 0;">Toque para expandir em tela cheia</p>
+        </div>
+        <a href="https://vilander.github.io/apresentacao-eventuca/" target="_blank" class="btn-link" onclick="event.stopPropagation();">
+          Abrir Página da Apresentação ↗
+        </a>
+      </div>
+
+      <!-- CARD 3: JORNADA TÉCNICA (ABRE TELA COMPLETA) -->
+      <div class="card" onclick="navegarPara('view-timeline')">
+        <div class="card-icon"></div>
+        <div>
+          <h2>Jornada Técnica</h2>
+          <p class="preview-text">Linha do tempo interativa com os 3 marcos de projetos e telas ampliadas.</p>
+        </div>
+        <span class="badge-click">Explorar linha do tempo ➔</span>
+      </div>
+    </main>
+
+    <footer>
+      EvenTuca • Desenvolvido com React Native, Expo e Turso Database
+    </footer>
+  </div>
+
+  <!-- VIEW 2: LINHA DO TEMPO EM TELA CHEIA -->
+  <div id="view-timeline">
+    <div class="timeline-view-header">
+      <div>
+        <h2 style="font-size: 1.4rem;">Jornada de Aprendizado</h2>
+        <p style="color: var(--text-muted); font-size: 0.85rem;">Evolução contínua em 3 marcos práticos de desenvolvimento</p>
+      </div>
+      <button class="btn-voltar" onclick="navegarPara('view-home')">
+        ← Voltar ao Início
+      </button>
+    </div>
+
+    <div class="timeline-grid">
+      <!-- MARCO 1 -->
+      <div class="timeline-card">
+        <div class="timeline-card-header">
+          <span class="timeline-stage">1° Marco • Front-End</span>
+          <h3>Vida Ativa</h3>
+          <p>Interface responsiva focada em hábitos saudáveis, estilização moderna e componentes reativos.</p>
+        </div>
+        <div class="timeline-img-box" onclick="ampliarImagem('Vida-Ativa.png', 'Projeto Vida Ativa - Front-End')">
+          <img src="Vida-Ativa.png" alt="Projeto Vida Ativa" />
+        </div>
+        <a href="https://vida-ativa-one.vercel.app/" target="_blank" class="timeline-link">
+          Acessar Site do Projeto ↗
+        </a>
+      </div>
+
+      <!-- MARCO 2 -->
+      <div class="timeline-card">
+        <div class="timeline-card-header">
+          <span class="timeline-stage">2° Marco • Back-End & Serviços</span>
+          <h3>ObraConnect</h3>
+          <p>Plataforma para conexão entre prestadores e obras, integrando rotas, APIs e banco relacional.</p>
+        </div>
+        <div class="timeline-img-box" onclick="ampliarImagem('ObraConnect.png', 'Projeto ObraConnect - Back-End')">
+          <img src="ObraConnect.png" alt="Projeto ObraConnect" />
+        </div>
+        <a href="https://apresentacao-obraconnect.vercel.app/" target="_blank" class="timeline-link">
+          Acessar Apresentação ObraConnect ↗
+        </a>
+      </div>
+
+      <!-- MARCO 3 -->
+      <div class="timeline-card">
+        <div class="timeline-card-header">
+          <span class="timeline-stage">3° Marco • Full Stack Mobile</span>
+          <h3>EvenTuca</h3>
+          <p>Aplicativo móvel multiplataforma com persistência distribuída via Turso, regras SQL e gestão de eventos.</p>
+        </div>
+        <div class="timeline-img-box" onclick="ampliarImagem('eventuca.png', 'Aplicativo EvenTuca - React Native')">
+          <img src="eventuca.png" alt="Aplicativo EvenTuca" />
+        </div>
+        <span style="font-size: 0.8rem; font-weight: 600; color: #10b981;">✓ Aplicação Prática Concluída</span>
+      </div>
+    </div>
+
+    <footer style="margin-top: 14px;">
+      EvenTuca • Desenvolvido com React Native, Expo e Turso Database
+    </footer>
+  </div>
+
+  <!-- DIALOG 1: DETALHES DO PROJETO -->
+  <dialog id="modalProjeto">
+    <h3>
+      <span>Sobre o EvenTuca</span>
+      <button class="btn-fechar" onclick="fecharModal('modalProjeto')">&times;</button>
+    </h3>
+    <div class="dialog-body">
+      <p>O <strong>EvenTuca</strong> nasceu para conectar pessoas a experiências que transformam suas carreiras e conhecimentos. O aplicativo reúne em um só lugar eventos corporativos, acadêmicos e encontros de tecnologia, facilitando a descoberta das melhores oportunidades perto de você com atualizações instantâneas.</p>
+      <p>Os eventos de tecnologia vão muito além de palestras ou linhas de código: são pontos de encontro onde apaixonados, curiosos e especialistas se reúnem para trocar ideias, abrir portas profissionais e, acima de tudo, construir amizades verdadeiras.</p>
+      <p>A ideia do EvenTuca surgiu ao perceber que um universo riquíssimo de conhecimento acontece todos os dias bem ao nosso lado, mas essas oportunidades acabam escondidas em pequenos nichos, grupos fechados e bolhas isoladas. O app foi criado justamente para ser a ponte que rompe essas barreiras, transformando essas iniciativas em experiências visíveis para todos e conectando cada encontro a quem realmente quer fazer parte dessa jornada.</p>
+      
+      <p style="margin-top: 12px; font-weight: 600; color: var(--text);">Tecnologias & Ferramentas:</p>
+      <div class="stack-tags">
+        <span class="stack-tag">React Native</span>
+        <span class="stack-tag">Expo Router</span>
+        <span class="stack-tag">TypeScript</span>
+        <span class="stack-tag">Turso (libSQL/SQLite)</span>
+        <span class="stack-tag">AsyncStorage</span>
+        <span class="stack-tag">EAS Build</span>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- DIALOG 2: QR CODE EXPANDIDO -->
+  <dialog id="modalQr">
+    <h3>
+      <div style="display: flex; flex-direction: column; align-items: flex-start;">
+        <span>Escaneie com o celular</span>
+        <span style="font-size: 0.8rem; color: var(--text-muted); font-weight: normal; margin-top: 2px;">
+          (Apenas Android)
+        </span>
+      </div>
+      <button class="btn-fechar" onclick="fecharModal('modalQr')">&times;</button>
+    </h3>
+    <img src="QRCode_Facil.svg" alt="QR Code Grande" class="qr-full" />
+    <p style="color: var(--text-muted); font-size: 0.85rem; text-align: center;">Abra a câmera do celular android para testar o EvenTuca em tempo real.</p>
+  </dialog>
+
+  <!-- DIALOG 4: ZOOM DE IMAGENS DA TIMELINE -->
+  <dialog id="modalZoomImagem">
+    <h3>
+      <span id="tituloImgModal">Visualização</span>
+      <button class="btn-fechar" onclick="fecharModal('modalZoomImagem')">&times;</button>
+    </h3>
+    <img id="imgExpandida" src="" alt="Imagem Ampliada" />
+  </dialog>
+
+  <script>
+    function navegarPara(idView) {
+      const home = document.getElementById('view-home');
+      const timeline = document.getElementById('view-timeline');
+      
+      if (idView === 'view-timeline') {
+        home.style.display = 'none';
+        timeline.style.display = 'flex';
+      } else {
+        timeline.style.display = 'none';
+        home.style.display = 'flex';
+      }
+    }
+
+    function abrirModal(id) {
+      const modal = document.getElementById(id);
+      if (modal) {
+        modal.showModal();
+      }
+    }
+
+    function fecharModal(id) {
+      const modal = document.getElementById(id);
+      if (modal) {
+        modal.close();
+      }
+    }
+
+    function ampliarImagem(src, titulo) {
+      const img = document.getElementById('imgExpandida');
+      const rotulo = document.getElementById('tituloImgModal');
+      img.src = src;
+      rotulo.innerText = titulo;
+      abrirModal('modalZoomImagem');
+    }
+
+    // Fechar modais ao clicar no backdrop (fora da caixa)
+    document.querySelectorAll('dialog').forEach((dialog) => {
+      dialog.addEventListener('click', (event) => {
+        const rect = dialog.getBoundingClientRect();
+        const isInDialog = (
+          rect.top <= event.clientY &&
+          event.clientY <= rect.top + rect.height &&
+          rect.left <= event.clientX &&
+          event.clientX <= rect.left + rect.width
+        );
+        if (!isInDialog) {
+          dialog.close();
+        }
+      });
+    });
+  </script>
+</body>
+</html>
