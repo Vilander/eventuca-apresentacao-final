@@ -11,6 +11,8 @@
       --card-border: #334155;
       --primary: #f97316;
       --primary-hover: #ea580c;
+      --linkedin: #0a66c2;
+      --linkedin-hover: #004182;
       --text: #f8fafc;
       --text-muted: #94a3b8;
     }
@@ -76,7 +78,7 @@
     header {
       text-align: center;
       flex-shrink: 0;
-      margin: 10px 0;
+      margin: 8px 0;
     }
 
     header h1 {
@@ -100,7 +102,7 @@
       grid-template-columns: repeat(3, 1fr);
       gap: 20px;
       flex-grow: 1;
-      margin-bottom: 12px;
+      margin-bottom: 8px;
       min-height: 0;
     }
 
@@ -397,6 +399,56 @@
       display: block;
     }
 
+    /* MODAL DO LINKEDIN */
+    #modalLinkedin {
+      max-width: 420px;
+      text-align: center;
+      padding: 24px;
+    }
+
+    .avatar-linkedin {
+      width: 84px;
+      height: 84px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid var(--linkedin);
+      margin: 0 auto 10px;
+      display: block;
+      box-shadow: 0 4px 14px rgba(10, 102, 194, 0.35);
+    }
+
+    .qr-linkedin {
+      width: 180px;
+      height: 180px;
+      background: white;
+      padding: 8px;
+      border-radius: 12px;
+      margin: 12px auto;
+      display: block;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    .btn-linkedin-action {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      background-color: var(--linkedin);
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.85rem;
+      padding: 9px 16px;
+      border-radius: 8px;
+      transition: background-color 0.2s ease;
+      margin-top: 10px;
+    }
+
+    .btn-linkedin-action:hover {
+      background-color: var(--linkedin-hover);
+    }
+
     /* MODAL DE ZOOM DE IMAGEM */
     #modalZoomImagem {
       max-width: 85vw;
@@ -414,11 +466,36 @@
       margin: 0 auto;
     }
 
+    /* FOOTER & BOTÃO LINKEDIN */
     footer {
-      text-align: center;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       font-size: 0.75rem;
       color: var(--text-muted);
       flex-shrink: 0;
+      padding-top: 4px;
+    }
+
+    .btn-trigger-linkedin {
+      background: rgba(10, 102, 194, 0.15);
+      border: 1px solid rgba(10, 102, 194, 0.4);
+      color: #60a5fa;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 0.76rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-trigger-linkedin:hover {
+      background: var(--linkedin);
+      color: #fff;
+      border-color: var(--linkedin);
     }
   </style>
 </head>
@@ -474,7 +551,10 @@
     </main>
 
     <footer>
-      EvenTuca • Desenvolvido com React Native, Expo e Turso Database
+      <span>EvenTuca • Desenvolvido com React Native, Expo e Turso Database</span>
+      <button class="btn-trigger-linkedin" onclick="abrirModal('modalLinkedin')">
+        💼 Conectar no LinkedIn
+      </button>
     </footer>
   </div>
 
@@ -536,7 +616,10 @@
     </div>
 
     <footer style="margin-top: 14px;">
-      EvenTuca • Desenvolvido com React Native, Expo e Turso Database
+      <span>EvenTuca • Desenvolvido com React Native, Expo e Turso Database</span>
+      <button class="btn-trigger-linkedin" onclick="abrirModal('modalLinkedin')">
+        💼 Conectar no LinkedIn
+      </button>
     </footer>
   </div>
 
@@ -563,7 +646,7 @@
     </div>
   </dialog>
 
-  <!-- DIALOG 2: QR CODE EXPANDIDO -->
+  <!-- DIALOG 2: QR CODE EXPANDIDO (APP) -->
   <dialog id="modalQr">
     <h3>
       <div style="display: flex; flex-direction: column; align-items: flex-start;">
@@ -576,6 +659,29 @@
     </h3>
     <img src="QRCode_Facil.svg" alt="QR Code Grande" class="qr-full" />
     <p style="color: var(--text-muted); font-size: 0.85rem; text-align: center;">Abra a câmera do celular android para testar o EvenTuca em tempo real.</p>
+  </dialog>
+
+  <!-- DIALOG 3: MODAL LINKEDIN -->
+  <dialog id="modalLinkedin">
+    <h3>
+      <span style="color: var(--linkedin);">Vamos nos conectar?</span>
+      <button class="btn-fechar" onclick="fecharModal('modalLinkedin')">&times;</button>
+    </h3>
+    <div style="margin-top: 8px;">
+      <img src="minha-foto.png" alt="Vilander Costa" class="avatar-linkedin" onerror="this.src='https://github.com/Vilander.png'" />
+      <h4 style="font-size: 1.1rem; color: var(--text); margin-bottom: 2px;">Vilander Costa</h4>
+      <p style="font-size: 0.82rem; color: var(--text-muted);">Escaneie o QR Code abaixo para me adicionar no LinkedIn:</p>
+      
+      <img 
+        src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://www.linkedin.com/in/vilander-costa/" 
+        alt="QR Code LinkedIn Vilander Costa" 
+        class="qr-linkedin" 
+      />
+
+      <a href="https://www.linkedin.com/in/vilander-costa/" target="_blank" class="btn-linkedin-action">
+        Abrir perfil diretamente no LinkedIn ↗
+      </a>
+    </div>
   </dialog>
 
   <!-- DIALOG 4: ZOOM DE IMAGENS DA TIMELINE -->
