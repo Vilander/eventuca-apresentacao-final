@@ -466,7 +466,7 @@
       margin: 0 auto;
     }
 
-    /* FOOTER & BOTÃO LINKEDIN */
+    /* FOOTER & BOTÕES DE AÇÃO */
     footer {
       display: flex;
       justify-content: space-between;
@@ -475,6 +475,34 @@
       color: var(--text-muted);
       flex-shrink: 0;
       padding-top: 4px;
+    }
+
+    .footer-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-apresentacao {
+      background: rgba(249, 115, 22, 0.12);
+      border: 1px solid rgba(249, 115, 22, 0.4);
+      color: var(--primary);
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 0.76rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-apresentacao:hover {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
     }
 
     .btn-trigger-linkedin {
@@ -552,9 +580,14 @@
 
     <footer>
       <span>EvenTuca • Desenvolvido com React Native, Expo e Turso Database</span>
-      <button class="btn-trigger-linkedin" onclick="abrirModal('modalLinkedin')">
-        💼 Conectar no LinkedIn
-      </button>
+      <div class="footer-actions">
+        <a href="apresentacao.html" class="btn-apresentacao" title="Abrir fundo de apresentação">
+          🖥️ Modo Apresentação
+        </a>
+        <button class="btn-trigger-linkedin" onclick="abrirModal('modalLinkedin')">
+          💼 Conectar no LinkedIn
+        </button>
+      </div>
     </footer>
   </div>
 
@@ -617,9 +650,14 @@
 
     <footer style="margin-top: 14px;">
       <span>EvenTuca • Desenvolvido com React Native, Expo e Turso Database</span>
-      <button class="btn-trigger-linkedin" onclick="abrirModal('modalLinkedin')">
-        💼 Conectar no LinkedIn
-      </button>
+      <div class="footer-actions">
+        <a href="apresentacao.html" class="btn-apresentacao" title="Abrir fundo de apresentação">
+          🖥️ Modo Apresentação
+        </a>
+        <button class="btn-trigger-linkedin" onclick="abrirModal('modalLinkedin')">
+          💼 Conectar no LinkedIn
+        </button>
+      </div>
     </footer>
   </div>
 
@@ -679,7 +717,7 @@
       />
 
       <a href="https://www.linkedin.com/in/vilander-costa/" target="_blank" class="btn-linkedin-action">
-        Abrir perfil diretamente no LinkedIn ↗
+        https://www.linkedin.com/in/vilander-costa/
       </a>
     </div>
   </dialog>
